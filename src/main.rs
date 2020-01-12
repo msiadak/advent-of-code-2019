@@ -5,23 +5,23 @@ fn main() {
     let masses = input.lines().map(|line: &str| line.parse::<u128>().expect("couldn't parse int"));
     let mut total: u128 = 0;
     for mass in masses {
-        total += incremental_rocket_equation(mass);
+        total += calculate_incremental_required_fuel(mass);
     }
     println!("{}", total);
 }
 
-fn rocket_equation(mass: u128) -> u128 {
+fn calculate_required_fuel(mass: u128) -> u128 {
   return (mass / 3).checked_sub(2).unwrap_or_else(|| 0);
 }
 
-fn incremental_rocket_equation(mass: u128) -> u128 {
+fn calculate_incremental_required_fuel(mass: u128) -> u128 {
     let mut total_mass: u128 = 0;
-    let mut fuel_needed: u128 = rocket_equation(mass);
+    let mut fuel_needed: u128 = calculate_required_fuel(mass);
     loop {
         if fuel_needed <= 0 {
             return total_mass;
         }
         total_mass += fuel_needed;
-        fuel_needed = rocket_equation(fuel_needed);
+        fuel_needed = calculate_required_fuel(fuel_needed);
     }
 }
